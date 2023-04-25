@@ -1,0 +1,6 @@
+package a-test
+
+depends = typelevel-emptiness-collections
+
+main = Spec
+executable = "test"

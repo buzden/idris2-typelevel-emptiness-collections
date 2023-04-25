@@ -1,0 +1,5 @@
+package a-test
+
+depends = typelevel-emptiness-collections
+
+modules = Spec

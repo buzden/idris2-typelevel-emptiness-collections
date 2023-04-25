@@ -369,6 +369,35 @@ public export
 Cast (LazyLst ne a) (LazyList a) where
   cast = toLazyList
 
+-- Stream --
+
+covering
+public export
+fromStream : Stream a -> LazyLst1 a
+fromStream $ x::xs = x :: fromStream xs
+
+--- Range syntax ---
+
+-- not really lazy in its nature
+public export %inline
+rangeFromTo : Range a => a -> a -> LazyLst0 a
+rangeFromTo l r = relaxF $ fromList $ rangeFromTo l r
+
+-- not really lazy in its nature
+public export %inline
+rangeFromThenTo : Range a => a -> a -> a -> LazyLst0 a
+rangeFromThenTo x y z = relaxF $ fromList $ rangeFromThenTo x y z
+
+covering
+public export %inline
+rangeFrom : Range a => (0 _ : IfUnsolved ne True) => a -> LazyLst ne a
+rangeFrom = relaxT . fromStream . rangeFrom
+
+covering
+public export %inline
+rangeFromThen : Range a => (0 _ : IfUnsolved ne True) => a -> a -> LazyLst ne a
+rangeFromThen = relaxT .: fromStream .: rangeFromThen
+
 --- Showing ---
 
 export

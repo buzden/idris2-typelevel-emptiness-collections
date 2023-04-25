@@ -380,6 +380,16 @@ public export
 Cast (Vect n a) (Lst (n /= Z) a) where
   cast = fromVect
 
+--- Range syntax ---
+
+public export %inline
+rangeFromTo : Range a => a -> a -> Lst0 a
+rangeFromTo l r = relaxF $ fromList $ rangeFromTo l r
+
+public export %inline
+rangeFromThenTo : Range a => a -> a -> a -> Lst0 a
+rangeFromThenTo x y z = relaxF $ fromList $ rangeFromThenTo x y z
+
 --- Showing ---
 
 export
