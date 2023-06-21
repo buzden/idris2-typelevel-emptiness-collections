@@ -340,6 +340,12 @@ mapMaybe f (x::xs) = case f x of
 
 --- External conversions ---
 
+-- Foldable --
+
+public export
+fromFoldable : Foldable f => f a -> Lst0 a
+fromFoldable = foldr (::) []
+
 -- List --
 
 public export

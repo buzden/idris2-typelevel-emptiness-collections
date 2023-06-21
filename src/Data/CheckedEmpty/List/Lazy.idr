@@ -338,6 +338,12 @@ mapMaybe f (x::xs) = case f x of
 
 --- External conversions ---
 
+-- Foldable --
+
+public export
+fromFoldable : Foldable f => f a -> LazyLst0 a
+fromFoldable = foldr (\x, xs => x :: xs) []
+
 -- List --
 
 public export
