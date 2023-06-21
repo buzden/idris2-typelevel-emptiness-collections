@@ -70,6 +70,11 @@ iterateN Z     _ x = []
 iterateN (S n) f x = x :: iterateN n f x
 
 public export
+tabulateN : (n : Nat) -> (Fin n -> a) -> Lst (n /= 0) a
+tabulateN 0     _ = []
+tabulateN (S k) f = f FZ :: tabulateN k (f . FS)
+
+public export
 replicate : (n : Nat) -> a -> Lst (n /= 0) a
 replicate Z     _ = []
 replicate (S k) x = x :: replicate k x
