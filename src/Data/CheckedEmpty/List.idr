@@ -169,6 +169,11 @@ Monad (Lst ne) where
 
 --- Folds ---
 
+public export
+foldrLazy : (op : a -> Lazy b -> b) -> (init : Lazy b) -> Lst ne a -> b
+foldrLazy _  init []      = init
+foldrLazy op init (x::xs) = x `op` foldrLazy op init xs
+
 export
 Foldable (Lst ne) where
   foldr c n []      = n
@@ -188,6 +193,11 @@ Foldable (Lst ne) where
 export
 foldl1 : (a -> a -> a) -> Lst1 a -> a
 foldl1 f (x::xs) = foldl f x xs
+
+public export
+foldr1 : (op : a -> Lazy a -> a) -> Lst1 a -> a
+foldr1 op [x]               = x
+foldr1 op xyys@(x::(y::ys)) = op x $ foldr1 op $ assert_smaller xyys $ y::ys
 
 export
 Traversable (Lst ne) where
