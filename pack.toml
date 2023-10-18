@@ -1,6 +1,3 @@
-[install]
-whitelist = [ "typelevel-emptiness-collections-tests" ]
-
 [custom.all.typelevel-emptiness-collections]
 type = "local"
 path = "."

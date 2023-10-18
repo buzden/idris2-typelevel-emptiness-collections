@@ -5,6 +5,7 @@ license = "Apache-2.0"
 brief = "Collections with type-level control of emptiness, e.g. generalisation of List and List1"
 
 sourcedir = "src"
+builddir = ".build"
 
 depends = if-unsolved-implicit
         , contrib -- only for `Data.List.Lazy`
