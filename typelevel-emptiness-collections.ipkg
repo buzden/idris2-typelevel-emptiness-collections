@@ -8,7 +8,6 @@ sourcedir = "src"
 builddir = ".build"
 
 depends = if-unsolved-implicit
-        , contrib -- only for `Data.List.Lazy`
 
 modules = Data.CheckedEmpty.List
         , Data.CheckedEmpty.List.Quantifiers
