@@ -308,12 +308,14 @@ export
 Zippable (LazyLst ne) where
   zipWith _ [] _ = []
   zipWith _ _ [] = []
-  zipWith f xxs@((x::xs) @{_} @{ine}) (y::ys) = (f x y :: zipWith f (assert_smaller xxs $ relaxF xs) (relaxF ys)) @{%search} @{ine}
+  zipWith f xxs@((x::xs) @{_} @{ine}) (y::ys) =
+    (f x y :: zipWith f (assert_smaller xxs $ relaxF xs) (relaxF ys)) @{%search} @{ine}
 
   zipWith3 _ [] _ _ = []
   zipWith3 _ _ [] _ = []
   zipWith3 _ _ _ [] = []
-  zipWith3 f xxs@((x::xs) @{_} @{ine}) (y::ys) (z::zs) = (f x y z :: zipWith3 f (assert_smaller xxs $ relaxF xs) (relaxF ys) (relaxF zs)) @{%search} @{ine}
+  zipWith3 f xxs@((x::xs) @{_} @{ine}) (y::ys) (z::zs) =
+    (f x y z :: zipWith3 f (assert_smaller xxs $ relaxF xs) (relaxF ys) (relaxF zs)) @{%search} @{ine}
 
   unzipWith  f xs = (xs <&> fst . f, xs <&> snd . f)
   unzipWith3 f xs = (xs <&> fst . f, xs <&> fst . snd . f, xs <&> snd . snd . f)
