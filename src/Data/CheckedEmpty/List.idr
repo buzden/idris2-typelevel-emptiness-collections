@@ -131,7 +131,7 @@ Functor (Lst ne) where
 
 namespace NEHeteroOps
 
-  export
+  public export
   bind : Lst nel a -> (a -> Lst ner b) -> Lst (nel && ner) b
   bind [] _ = []
   bind wh@(x::xs) f = do
@@ -141,15 +141,15 @@ namespace NEHeteroOps
     rewrite sym $ orSameNeutral ner
     relaxAnd $ f x ++ (assert_smaller wh nxs `bind` f)
 
-  export %inline
+  public export %inline
   bind' : Lst nel a -> Lst ner b -> Lst (nel && ner) b
   bind' xs ys = xs `bind` \_ => ys
 
-  export %inline
+  public export %inline
   join' : Lst nel (Lst ner a) -> Lst (nel && ner) a
   join' xs = xs `bind` id
 
-  export %inline
+  public export %inline
   ap : Lst nel (a -> b) -> Lst ner a -> Lst (nel && ner) b
   ap xs ys = xs `bind` (<$> ys)
 
@@ -174,7 +174,7 @@ foldrLazy : (op : a -> Lazy b -> b) -> (init : Lazy b) -> Lst ne a -> b
 foldrLazy _  init []      = init
 foldrLazy op init (x::xs) = x `op` foldrLazy op init xs
 
-export
+public export
 Foldable (Lst ne) where
   foldr c n []      = n
   foldr c n (x::xs) = c x (foldr c n xs)
@@ -190,7 +190,7 @@ Foldable (Lst ne) where
 
   foldMap f = foldl (\acc, elem => acc <+> f elem) neutral
 
-export
+public export
 foldl1 : (a -> a -> a) -> Lst1 a -> a
 foldl1 f (x::xs) = foldl f x xs
 
@@ -199,7 +199,7 @@ foldr1 : (op : a -> Lazy a -> a) -> Lst1 a -> a
 foldr1 op [x]               = x
 foldr1 op xyys@(x::(y::ys)) = op x $ foldr1 op $ assert_smaller xyys $ y::ys
 
-export
+public export
 Traversable (Lst ne) where
   traverse f []      = pure []
   traverse f (x::xs) = [| f x :: traverse f xs |]
@@ -307,7 +307,7 @@ dropWhile p (x::xs) = if p x then dropWhile p xs else x::xs
 
 --- Zippings ---
 
-export
+public export
 Zippable (Lst ne) where
   zipWith _ [] _ = []
   zipWith _ _ [] = []
@@ -332,23 +332,23 @@ Zippable (Lst ne) where
     let (as, bs, cs) = unzipWith3 f xs
     (a::as, b::bs, c::cs)
 
-export
+public export
 zipWithStream : (a -> b -> c) -> Stream a -> Lst ne b -> Lst ne c
 zipWithStream _ _       []      = []
 zipWithStream f (x::xs) (y::ys) = f x y :: zipWithStream f xs ys
 
-export %inline
+public export %inline
 zipStream : Stream a -> Lst ne b -> Lst ne (a, b)
 zipStream = zipWithStream (,)
 
 --- Filtering ---
 
-export
+public export
 filter : (a -> Bool) -> Lst ne a -> Lst0 a
 filter _ []      = []
 filter f (x::xs) = if f x then x :: filter f xs else filter f xs
 
-export
+public export
 mapMaybe : (a -> Maybe b) -> Lst ne a -> Lst0 b
 mapMaybe _ [] = []
 mapMaybe f (x::xs) = case f x of
@@ -445,6 +445,7 @@ Uninhabited ((::) @{unsL0} @{unsL1} x xs === (::) @{unsR0} @{unsR1} y ys) where
 
 -- type itself, constructors --
 
+export
 Biinjective CheckedEmpty.List.(::) where
   biinjective Refl = (Refl, Refl)
 

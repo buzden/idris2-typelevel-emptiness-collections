@@ -63,6 +63,7 @@ namespace All
     (::) : {0 u0 : _} -> {0 u1 : _} ->
            p x -> Lazy (All p xs) -> All p $ (x :: xs) @{u0} @{u1}
 
+  export
   {0 u0 : _} -> {0 u1 : _} ->
   Either (Uninhabited $ p x) (Uninhabited $ All p xs) => Uninhabited (All p $ (x::xs) @{u0} @{u1}) where
     uninhabited @{Left  _} (px::pxs) = uninhabited px
@@ -73,13 +74,13 @@ namespace All
   mapProperty f []      = []
   mapProperty f (p::ps) = f p :: mapProperty f ps
 
-  export
+  public export
   zipPropertyWith : ({0 x : a} -> p x -> q x -> r x) ->
                     All p xs -> All q xs -> All r xs
   zipPropertyWith f []        []        = []
   zipPropertyWith f (px::pxs) (qx::qxs) = f px qx :: zipPropertyWith f pxs qxs
 
-  export %inline
+  public export %inline
   imapProperty : (0 i : a -> Type) ->
                  (f : {0 x : _} -> i x => p x -> q x) ->
                  All i xs => All p xs -> All q xs
@@ -90,7 +91,7 @@ namespace All
   forget []      = []
   forget (x::xs) = x :: forget xs
 
-  export
+  public export
   all : ((x : a) -> Dec $ p x) -> (xs : LazyLst _ a) -> Dec $ All p xs
   all _ Nil = Yes Nil
   all p $ x::lxs with (p x)
